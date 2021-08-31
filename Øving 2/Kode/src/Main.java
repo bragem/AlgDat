@@ -2,7 +2,7 @@ import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
-
+        //Klasse for tidtaking og verifisering av algoritme 1
         Date start = new Date();
         int runder = 0;
         double tid;
@@ -10,8 +10,6 @@ public class Main {
 
         System.out.println(Algorithm1.recursivePow(2,10)==1024.0);
         System.out.println(Algorithm1.recursivePow(3,14)==4782969);
-        System.out.println(Algorithm2.recursivePow(2,10)==1024.0);
-        System.out.println(Algorithm2.recursivePow(3,14)==4782969);
 
         do{
             Algorithm1.recursivePow(2,5000);
