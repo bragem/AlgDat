@@ -9,7 +9,7 @@ public class Main {
         Date slutt;
 
         do{
-            Algorithm1.recursivePow(2,4);
+            Algorithm1.recursivePow(2,10000);
             slutt = new Date();
             ++runder;
         }
