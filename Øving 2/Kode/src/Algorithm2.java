@@ -1,2 +1,2 @@
-package PACKAGE_NAME;public class Algorithm2 {
+public class Algorithm2 {
 }
