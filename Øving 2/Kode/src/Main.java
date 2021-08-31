@@ -8,8 +8,12 @@ public class Main {
         double tid;
         Date slutt;
 
+        System.out.println(Algorithm1.recursivePow(2,10)==1024.0);
+        System.out.println(Algorithm1.recursivePow(3,14)==4782969);
+
+
         do{
-            Algorithm1.recursivePow(2,10000);
+            Algorithm1.recursivePow(2,5000);
             slutt = new Date();
             ++runder;
         }
