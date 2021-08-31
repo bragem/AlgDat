@@ -1,5 +1,20 @@
+import java.util.Date;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world");
+
+        Date start = new Date();
+        int runder = 0;
+        double tid;
+        Date slutt;
+
+        do{
+            Algorithm1.recursivePow(2,4);
+            slutt = new Date();
+            ++runder;
+        }
+        while(slutt.getTime()-start.getTime()<1000);
+        tid = (double) (slutt.getTime()-start.getTime())/runder;
+        System.out.println("Millisekund pr runde: " + tid);
     }
 }
