@@ -13,7 +13,7 @@ public class Main2 {
 
 
         do{
-            Algorithm2.recursivePow(2,5000);
+            Algorithm2.recursivePow(1.001,5000);
             slutt = new Date();
             ++runder;
         }

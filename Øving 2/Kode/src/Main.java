@@ -12,7 +12,7 @@ public class Main {
         System.out.println(Algorithm1.recursivePow(3,14)==4782969);
 
         do{
-            Algorithm1.recursivePow(2,5000);
+            Algorithm1.recursivePow(1.001,5000);
             slutt = new Date();
             ++runder;
         }
