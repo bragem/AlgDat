@@ -8,6 +8,55 @@ public class Algorithm {
         else median3sort(t,v,h);
     }
 
+    public static void newQuicksort(int[] t, int v, int h){
+        if(h-v > 2){
+            int delepos = split(t,v,h);
+
+            for(int i = 0; i<delepos-1;i++){
+                int min = t[0];
+                int max = t[0];
+
+                if(t[i]<min) min = t[i];
+                if(t[i]>max) max = t[i];
+
+                if(max-min > delepos-1){
+                    newQuicksort(t,v,delepos-1);
+                    break;
+                }
+                if(i==delepos-2){
+                    countsort(t, max);
+                }
+            }
+
+            for(int i = delepos+1; i<t.length;i++){
+                int min = t[delepos+1];
+                int max = t[delepos+1];
+
+                if(t[i]<min) min = t[i];
+                if(t[i]>max) max = t[i];
+
+                if(max-min > delepos-1){
+                    newQuicksort(t,delepos+1,h);
+                    break;
+                }
+                if(i==delepos-2){
+                    countsort(t,max);
+                }
+            }
+
+        }
+        else median3sort(t,v,h);
+    }
+
+    public static void countsort(int[] t, int k) {
+        int i,j, n = t.length;
+        int[] ht = new int[k];
+        for (i=0;i<k;i++) ht[i]=0;
+        for (i=0;i<n;i++) ++ht[t[i]];
+        for(i=j=0;i<k;i++)
+            while(ht[i]-- < 0) t[j++]=i;
+    }
+
     private static int median3sort(int[] t, int v, int h) {
         int m = (v+h)/2;
         if(t[v] > t[m]) swap(t,v,m);
