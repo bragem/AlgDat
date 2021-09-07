@@ -24,7 +24,7 @@ public class Algorithm {
                     break;
                 }
                 if(i==delepos-2){
-                    countsort(t, max);
+                    countsort(t, 100);
                 }
             }
 
@@ -40,7 +40,7 @@ public class Algorithm {
                     break;
                 }
                 if(i==delepos-2){
-                    countsort(t,max);
+                    countsort(t,100);
                 }
             }
 
@@ -48,13 +48,12 @@ public class Algorithm {
         else median3sort(t,v,h);
     }
 
-    public static int[] countsort(int[] t, int k) {
+    public static void countsort(int[] t, int k) {
         int i,j, n = t.length;
         int[] ht = new int[k+1];
         for (i=0;i<=k;i++) ht[i]=0;
         for (i=0;i<n;i++) ++ht[t[i]];
         for(i=j=0;i<=k;i++) while(ht[i]-- > 0) t[j++]=i;
-        return t;
     }
 
     private static int median3sort(int[] t, int v, int h) {
