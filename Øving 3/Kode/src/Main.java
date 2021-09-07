@@ -14,10 +14,9 @@ public class Main {
         System.out.println(sum);
         System.out.println(Arrays.toString(arr));
 
-//        Algorithm.quicksort(arr,0,arr.length-1);
-//        Algorithm.newQuicksort(arr,0,arr.length-1);
-        Algorithm.countsort(arr,100);
-        sum = 0;
+
+        Algorithm.newQuicksort(arr, 0,9);
+        sum=0;
         for(int i=0; i<arr.length;i++){
             sum += arr[i];
         }
