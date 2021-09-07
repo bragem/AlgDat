@@ -13,7 +13,7 @@ public class Main {
         }
         System.out.println(sum);
 
-        Algorithm.quicksort(arr,0,99);
+        Algorithm.quicksort(arr,0,arr.length-1);
 
         sum = 0;
         for(int i=0; i<arr.length;i++){
