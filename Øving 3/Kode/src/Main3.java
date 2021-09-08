@@ -12,7 +12,7 @@ public class Main3 {
         do{
             int[] arr = new int[1000000];
             for (int i = 0; i < 1000000; i++) {
-                arr[i] = (int) (Math.random() * 100);
+                arr[i] = (int) (Math.random() * 3);
             }
             Algorithm.newQuicksort(arr, 0, arr.length-1);
             slutt = new Date();
