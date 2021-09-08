@@ -10,50 +10,61 @@ public class Algorithm {
 
     public static void newQuicksort(int[] t, int v, int h){
         if(h-v > 2){
+            boolean hasCounted = false;
             int delepos = split(t,v,h);
 
-            for(int i = 0; i<delepos-1;i++){
-                int min = t[0];
-                int max = t[0];
-
+            int min = t[v];
+            int max = t[v];
+            for(int i = v; i<=delepos-1;i++){
                 if(t[i]<min) min = t[i];
                 if(t[i]>max) max = t[i];
 
-                if(max-min > delepos-1){
-                    newQuicksort(t,v,delepos-1);
+                if(max-min > delepos-1-v){
                     break;
                 }
-                if(i==delepos-2){
-                    countsort(t, 100);
+                if(i==delepos-1){
+                    countsort(t, max, v,delepos-1);
+                    hasCounted = true;
                 }
             }
 
-            for(int i = delepos+1; i<t.length;i++){
-                int min = t[delepos+1];
-                int max = t[delepos+1];
+            if(!hasCounted){
+                newQuicksort(t,v,delepos-1);
+                hasCounted = false;
+            }
 
+            min = t[delepos+1];
+            max = t[delepos+1];
+            for(int i = delepos+1; i<=h;i++){
                 if(t[i]<min) min = t[i];
                 if(t[i]>max) max = t[i];
 
-                if(max-min > delepos-1){
-                    newQuicksort(t,delepos+1,h);
+                if(max-min > h-(delepos+1)){
                     break;
                 }
-                if(i==delepos-2){
-                    countsort(t,100);
+                if(i==h){
+                    countsort(t,max,delepos+1, h);
+                    hasCounted = true;
                 }
+            }
+
+            if(!hasCounted){
+                newQuicksort(t,delepos+1,h);
             }
 
         }
         else median3sort(t,v,h);
     }
 
-    public static void countsort(int[] t, int k) {
-        int i,j, n = t.length;
+    public static void countsort(int[] t, int k, int start, int slutt) {
+        int i = start;
+        int j = start;
+
         int[] ht = new int[k+1];
-        for (i=0;i<=k;i++) ht[i]=0;
-        for (i=0;i<n;i++) ++ht[t[i]];
-        for(i=j=0;i<=k;i++) while(ht[i]-- > 0) t[j++]=i;
+//        Bare relevant for c/c++ for alle elementer i et nytt array er null i java
+//        for (i=0;i<=k;i++) ht[i]=0;
+        for (;i<=slutt;i++) ++ht[t[i]];
+        for(i=0;i<=k;i++) while(ht[i]-- > 0) t[j++]=i;
     }
 
     private static int median3sort(int[] t, int v, int h) {
