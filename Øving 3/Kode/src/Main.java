@@ -23,7 +23,6 @@ public class Main {
             }
         }
             System.out.println(sumBefore == sumAfter);
-//            System.out.println(Arrays.toString(arr));
 
 
     }
