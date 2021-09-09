@@ -1,6 +1,8 @@
 
 public class Main {
     public static void main(String[] args) {
+        //klasse som tester om nye quicksort kan sortere en million elementer,
+        // og kan sortere dem igjen når tabellen er ferdigsortert
         int[] arr = new int[1000000];
         for (int i = 0; i < 1000000; i++) {
             arr[i] = (int) (Math.random() * 100);
