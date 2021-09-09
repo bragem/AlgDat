@@ -2,6 +2,7 @@ import java.util.Arrays;
 
 public class Test {
     public static void main(String[] args) {
+        //klasse for å se på sorterte tabeller av quicksort
         int length = 20;
         int[] arr = new int[length];
         for (int i = 0; i < length; i++) {
