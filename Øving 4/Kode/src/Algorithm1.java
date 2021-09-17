@@ -23,11 +23,11 @@ public class Algorithm1 {
                 }
                 case ']' -> {
                     checked = stack.pop();
-                    if (checked != ']') return false;
+                    if (checked != '[') return false;
                 }
                 case ')' -> {
                     checked = stack.pop();
-                    if (checked != ')') return false;
+                    if (checked != '(') return false;
                 }
             }
         }
