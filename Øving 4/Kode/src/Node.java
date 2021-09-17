@@ -7,6 +7,11 @@ public class Node {
         next = n;
         previous = p;
     }
+    public Node(int e, Node n){
+        element = e;
+        next = n;
+        previous = null;
+    }
     public int getElement(){
         return element;
     }
