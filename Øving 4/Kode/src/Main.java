@@ -3,8 +3,6 @@ import java.util.Date;
 public class Main {
     public static void main(String[] args) {
 
-//        System.out.println(Algorithm.josephus(10,4));
-
         Date start = new Date();
         int runder = 0;
         double tid;
