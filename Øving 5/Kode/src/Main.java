@@ -18,16 +18,22 @@ public class Main {
                 Node newNode = new Node(line,0,null);
                 ht.add(ht.stringToInt(line), newNode);
             }
-            System.out.println(ht.getCollisions());
+            System.out.println("Antall kollisjoner: " + ht.getCollisions());
+            System.out.println("Lastfaktor: " + (ht.getCollisions()/137.0));
+            System.out.println("Antall kollisjoner per person: " + (ht.getCollisions()/118.0));
             br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("Finn person i faget:");
-        String name = myObj.nextLine();
-        System.out.println(ht.find(name));
+
+        // Du kan teste selv med flere navn under her, men har testet med mitt navn
+        System.out.println(ht.find("Brage Minge"));
+
+//        Scanner myObj = new Scanner(System.in);
+//        System.out.println("Finn person i faget:");
+//        String name = myObj.nextLine();
+//        System.out.println(ht.find(name));
 
 
 
