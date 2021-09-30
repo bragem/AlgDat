@@ -1,15 +1,18 @@
 public class Node {
-    int element;
+    String value;
+    int key;
     Node next;
 
-    public Node(int e, Node n){
-        element = e;
+    public Node(String value, int key, Node n){
+        this.value = value;
+        this.key = key;
         next = n;
     }
 
-    public int getElement(){
-        return element;
+    public String getValue(){
+        return value;
     }
+    public int getKey(){return key;}
 
     public Node getNext() {
         return next;
