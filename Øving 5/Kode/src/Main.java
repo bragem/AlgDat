@@ -10,7 +10,7 @@ public class Main {
         Hashtabell ht = new Hashtabell(137);
 
 
-        File f = new File("C:/Users/Brage/Desktop/Skole/Høst 2021/AlgDat/Øving 5/Kode/src/fil.txt");
+        File f = new File("./navn.txt");
         try {
             BufferedReader br = new BufferedReader(new FileReader(f));
             String line;
