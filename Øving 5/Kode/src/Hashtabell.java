@@ -36,6 +36,19 @@ public class Hashtabell {
         table[h] = newNode;
     }
 
+    public boolean find(String name){
+        int hashed = divhash(stringToInt(name));
+
+        if(table[hashed] == null) return false;
+        Node thisNode = table[hashed];
+
+        while(table[hashed].next != null){
+            if (thisNode.value.equals(name)) return true;
+            thisNode = thisNode.next;
+        }
+        return false;
+    }
+
     public int getCollisions() {
         return collisions;
     }
