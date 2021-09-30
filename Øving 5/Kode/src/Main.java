@@ -1,4 +1,6 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 public class Main {
     public static void main(String[] args) {
@@ -7,7 +9,7 @@ public class Main {
         Hashtabell ht = new Hashtabell(256);
 
 
-        File f = new File("./fil.txt");
+        File f = new File("C:/Users/Brage/Desktop/Skole/Høst 2021/AlgDat/Øving 5/Kode/src/fil.txt");
         try {
             BufferedReader br = new BufferedReader(new FileReader(f));
             String line;
