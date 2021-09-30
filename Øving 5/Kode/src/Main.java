@@ -15,6 +15,7 @@ public class Main {
                 Node newNode = new Node(line,0,null);
                 ht.add(ht.stringToInt(line), newNode);
             }
+            br.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
