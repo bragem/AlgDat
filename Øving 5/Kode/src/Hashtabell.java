@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class Hashtabell {
     private int size;
     Node[] table;
