@@ -9,9 +9,8 @@ public class Node {
         next = n;
     }
 
-    public String getValue(){
-        return value;
-    }
+    public String getValue(){return value;}
+
     public int getKey(){return key;}
 
     public Node getNext() {
