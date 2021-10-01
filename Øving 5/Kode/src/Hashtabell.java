@@ -42,10 +42,16 @@ public class Hashtabell {
         if(table[hashed] == null) return false;
         Node thisNode = table[hashed];
 
-        while(table[hashed].next != null){
-            if (thisNode.value.equals(name)) return true;
-            thisNode = thisNode.next;
+        for(int i = 0;i<table.length-hashed;i++){
+            if(table[hashed+i] == null) continue;
+            while(table[hashed+i].next != null){
+                if (thisNode.value.equals(name)) return true;
+                thisNode = thisNode.next;
+            }
+
         }
+        
+
         return false;
     }
 
