@@ -43,6 +43,7 @@ public class Hashtabell {
         Node thisNode = table[hashed];
 
         for(int i = 0;i<table.length-hashed;i++){
+            
             if(table[hashed+i] == null) continue;
             while(table[hashed+i].next != null){
                 if (thisNode.value.equals(name)) return true;
