@@ -1,6 +1,8 @@
 public class OpenAddressLinear extends OpenAddress{
-    @Override
-    public void probe() {
 
+    @Override
+    public int probe(int h, int i, int m) {
+        return (h+i)%m;
     }
+
 }
