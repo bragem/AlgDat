@@ -33,5 +33,8 @@ public abstract class OpenAddress {
         return number% table.length;
     }
 
+    public void setTable(int[] table1){
+        System.arraycopy(table1, 0, table, 0, table1.length);
+    }
 
 }
