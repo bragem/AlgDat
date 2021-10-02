@@ -7,7 +7,7 @@ public class Main {
 
         //bytter mellom høyeste primtall over 10 mill og toerpotens
         final int FULLSIZE = 10000019;
-//        final int FULLSIZE = (int) Math.pow(2,23);
+//        final int FULLSIZE = (int) Math.pow(2,24);
 
 
         final int PERCENTAGE = (FULLSIZE/100);
