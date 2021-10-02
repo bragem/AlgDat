@@ -8,16 +8,16 @@ public class Main {
         final int HALFSIZE = 5000010;
         final int EIGHTY = 8000015;
         final int NINETY = 9000017;
-        final int NINENTYNINE = 9900019;
+        final int NINETYNINE = 9900019;
 
         OpenAddressLinear lin = new OpenAddressLinear();
         OpenAddressQuadratic quad = new OpenAddressQuadratic();
         OpenAddressDouble doub = new OpenAddressDouble();
 
         int[] arr = new int[FULLSIZE];
-        arr[0] = (int) (Math.random()*999) +1;
+        arr[0] = (int) (Math.random()*9999999) +1;
         for (int i = 1; i<FULLSIZE-1;i++){
-            arr[i] = (int) ((Math.random()*999) + 1);
+            arr[i] = (int) ((Math.random()*9999999) + 1);
         }
 
         //shuffler arrayet
@@ -33,9 +33,13 @@ public class Main {
 
         //50% lineær probing
         int linColl = 0;
+        long start = System.nanoTime();
         for (int i =0;i<HALFSIZE;i++){
-            linColl += quad.add(arr[i]);
+            linColl += lin.add(arr[i]);
         }
+        long end = System.nanoTime();
+        long time = end-start;
+
         System.out.println(linColl);
 
 
