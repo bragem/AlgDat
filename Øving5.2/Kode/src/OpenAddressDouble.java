@@ -13,4 +13,12 @@ public class OpenAddressDouble extends OpenAddress{
         if(hashed<0) hashed= hashed * (-1);
         return hashed;
     }
+
+    //for partallslengde av tabell
+    public int hash3(int number){
+        int hashed = (2*Math.abs(number)+1)% table.length;
+        if(hashed<0) hashed= hashed * (-1);
+        return hashed;
+    }
+
 }
