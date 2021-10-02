@@ -1,14 +1,20 @@
+import java.io.FileFilter;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
     public static void main(String[] args) {
 
+        //bytter mellom høyeste primtall over 10 mill og høyeste toerpotens
         final int FULLSIZE = 10000019;
-        final int HALFSIZE = 5000010;
-        final int EIGHTY = 8000015;
-        final int NINETY = 9000017;
-        final int NINETYNINE = 9900019;
+//        final int FULLSIZE = (int) Math.pow(2,23);
+
+
+        final int PERCENTAGE = (FULLSIZE/100);
+        final int HALFSIZE = PERCENTAGE *50;
+        final int EIGHTY = PERCENTAGE*80;
+        final int NINETY = PERCENTAGE*90;
+        final int NINETYNINE = PERCENTAGE*99;
 
         OpenAddressLinear lin = new OpenAddressLinear();
         OpenAddressQuadratic quad = new OpenAddressQuadratic();
@@ -31,16 +37,16 @@ public class Main {
         }
 
 
-        //50% lineær probing
         int linColl = 0;
         long start = System.nanoTime();
-        for (int i =0;i<HALFSIZE;i++){
-            linColl += lin.add(arr[i]);
+        for (int i = 0; i< NINETYNINE; i++){
+            linColl += doub.add(arr[i]);
         }
         long end = System.nanoTime();
-        long time = end-start;
+        long time = (end-start)/1000000;
 
         System.out.println(linColl);
+        System.out.println(time);
 
 
 
