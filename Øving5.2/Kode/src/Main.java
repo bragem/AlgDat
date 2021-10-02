@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Main {
     public static void main(String[] args) {
 
-        //bytter mellom høyeste primtall over 10 mill og høyeste toerpotens
+        //bytter mellom høyeste primtall over 10 mill og toerpotens
         final int FULLSIZE = 10000019;
 //        final int FULLSIZE = (int) Math.pow(2,23);
 
