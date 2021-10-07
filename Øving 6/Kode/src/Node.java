@@ -1,4 +1,5 @@
 public class Node {
     Kant kant1;
-    Object d;
+    Forgj d;
+    int number;
 }
