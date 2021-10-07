@@ -1,6 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Graf {
     //antall noder
@@ -13,7 +13,10 @@ public class Graf {
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         node = new Node[N];
-        for (int i=0;i<N;i++) node[i] = new Node();
+        for (int i=0;i<N;i++) {
+            node[i] = new Node();
+            node[i].number=i;
+        }
         K = Integer.parseInt(st.nextToken());
         for (int i=0;i<K;i++){
             st = new StringTokenizer(br.readLine());
@@ -27,7 +30,34 @@ public class Graf {
         for (int i=N;i-->0;){
             node[i].d = new Forgj();
         }
-        ((Forgj)s.d).dist = 0;
+        s.d.dist = 0;
+    }
+
+
+    public void bfs(Node s){
+        initForgj(s);
+        ArrayDeque<Node> queue = new ArrayDeque<>();
+        queue.add(s);
+        while (!queue.isEmpty()){
+            Node n = queue.getFirst();
+            for(Kant k = n.kant1;k!=null;k=k.neste){
+                Forgj f =  k.til.d;
+                if (f.dist == f.uendelig){
+                    f.dist = n.d.dist+1;
+                    f.forgj = n;
+                    queue.add(k.til);
+                }
+            }
+            queue.removeFirst();
+        }
+    }
+
+    public void printResults(){
+        System.out.println("Node:  Forgj:  Dist:  ");
+        for (int i=0;i<N;i++){
+            //TODO find a way to print a forgj number correctly
+            System.out.println(node[i].number+"  "+node[i].d+"  "+ node[i].d.dist);
+        }
     }
 
 
