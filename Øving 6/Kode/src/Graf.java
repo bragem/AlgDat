@@ -23,5 +23,12 @@ public class Graf {
         }
     }
 
+    public void initForgj(Node s){
+        for (int i=N;i-->0;){
+            node[i].d = new Forgj();
+        }
+        ((Forgj)s.d).dist = 0;
+    }
+
 
 }
