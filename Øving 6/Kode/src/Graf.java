@@ -30,7 +30,7 @@ public class Graf {
         for (int i=N;i-->0;){
             node[i].d = new Forgj();
         }
-        s.d.dist = 0;
+        ((Forgj) s.d).dist = 0;
     }
 
 
@@ -41,9 +41,9 @@ public class Graf {
         while (!queue.isEmpty()){
             Node n = queue.getFirst();
             for(Kant k = n.kant1;k!=null;k=k.neste){
-                Forgj f =  k.til.d;
+                Forgj f =  (Forgj) k.til.d;
                 if (f.dist == f.uendelig){
-                    f.dist = n.d.dist+1;
+                    f.dist = ((Forgj)n.d).dist+1;
                     f.forgj = n;
                     queue.add(k.til);
                 }
@@ -56,13 +56,13 @@ public class Graf {
         System.out.println("Node:  Forgj:  Dist:  ");
         for (int i=0;i<N;i++){
             int forgj;
-            if(node[i].d.forgj == null){
+            if(((Forgj)node[i].d).forgj == null){
                 forgj = -1;
             }
             else{
-                forgj = node[i].d.forgj.number;
+                forgj = ((Forgj)node[i].d).forgj.number;
             }
-            System.out.println(node[i].number+"      "+forgj+"     "+ node[i].d.dist);
+            System.out.println(node[i].number+"      "+forgj+"     "+ ((Forgj)node[i].d).dist);
         }
     }
 
