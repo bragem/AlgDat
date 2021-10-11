@@ -10,7 +10,7 @@ public class Main {
             BufferedReader br = new BufferedReader(fr);
             graf.ny_ugraf(br);
             graf.bfs(graf.node[5]);
-            graf.printResults();
+            graf.printBFSResults();
         } catch (Exception e) {
             e.printStackTrace();
         }

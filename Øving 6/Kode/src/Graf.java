@@ -53,7 +53,7 @@ public class Graf {
         }
     }
 
-    public void printResults(){
+    public void printBFSResults(){
         System.out.println("Node:  Forgj:  Dist:  ");
         for (int i=0;i<N;i++){
             int forgj;
@@ -66,6 +66,15 @@ public class Graf {
             System.out.println(node[i].number+"      "+forgj+"     "+ ((Forgj)node[i].d).dist);
         }
     }
+
+
+
+
+
+
+
+
+
 
 
 }
