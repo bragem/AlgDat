@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.StringTokenizer;
 
 public class Graf {
     //antall noder
