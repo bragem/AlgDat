@@ -1,2 +1,4 @@
-package PACKAGE_NAME;public class Topo_lst {
+public class Topo_lst {
+    boolean funnet;
+    Node neste;
 }
