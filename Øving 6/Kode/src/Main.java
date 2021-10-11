@@ -9,7 +9,7 @@ public class Main {
             FileReader fr = new FileReader("./L7g1.txt");
             BufferedReader br = new BufferedReader(fr);
             graf.ny_ugraf(br);
-            graf.bfs(graf.node[0]);
+            graf.bfs(graf.node[5]);
             graf.printResults();
         } catch (Exception e) {
             e.printStackTrace();
