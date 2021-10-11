@@ -55,8 +55,14 @@ public class Graf {
     public void printResults(){
         System.out.println("Node:  Forgj:  Dist:  ");
         for (int i=0;i<N;i++){
-            //TODO find a way to print a forgj number correctly
-            System.out.println(node[i].number+"  "+node[i].d+"  "+ node[i].d.dist);
+            int forgj;
+            if(node[i].d.forgj == null){
+                forgj = -1;
+            }
+            else{
+                forgj = node[i].d.forgj.number;
+            }
+            System.out.println(node[i].number+"      "+forgj+"     "+ node[i].d.dist);
         }
     }
 
