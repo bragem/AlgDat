@@ -5,7 +5,7 @@ public class Vkant extends Kant{
         super(n,nst);
         vekt=vkt;
     }
-    public void beregnRestkapasitet(){
-        vekt -=flyt;
+    public int beregnRestkapasitet(){
+        return vekt - flyt;
     }
 }
