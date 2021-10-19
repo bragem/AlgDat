@@ -24,7 +24,8 @@ public class Graf {
         queue.add(s);
         while (!queue.isEmpty()){
             Node n = queue.getFirst();
-            for(Kant k = n.kant1;k!=null;k=k.neste){
+            for(Vkant k = (Vkant)n.kant1;k!=null;k=(Vkant)k.neste){
+                if(k.vekt==0) continue;
                 Forgj f =  (Forgj) k.til.d;
                 if (f.dist == f.uendelig){
                     f.dist = ((Forgj)n.d).dist+1;
