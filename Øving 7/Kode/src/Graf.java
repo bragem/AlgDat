@@ -10,23 +10,6 @@ public class Graf {
     int K;
     Node[] node;
 
-    public void ny_ugraf(BufferedReader br) throws IOException  {
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        node = new Node[N];
-        for (int i=0;i<N;i++) {
-            node[i] = new Node();
-            node[i].number=i;
-        }
-        K = Integer.parseInt(st.nextToken());
-        for (int i=0;i<K;i++){
-            st = new StringTokenizer(br.readLine());
-            int fra = Integer.parseInt(st.nextToken());
-            int til = Integer.parseInt(st.nextToken());
-            node[fra].kant1 = new Kant(node[til],node[fra].kant1);
-        }
-    }
-
     public void initForgj(Node s){
         for (int i=N;i-->0;){
             node[i].d = new Forgj();
@@ -67,35 +50,21 @@ public class Graf {
         }
     }
 
-    public Node df_topo(Node n, Node l){
-        Topo_lst nd = (Topo_lst) n.d;
-        if(nd.funnet) return l;
-        nd.funnet = true;
-        for(Kant k = n.kant1;k!=null;k=k.neste){
-            l = df_topo(k.til,l);
+    public void ny_vgraf(BufferedReader br) throws IOException{
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        node = new Node[N];
+        for (int i=0;i<N;++i) node[i] = new Node();
+        K = Integer.parseInt(st.nextToken());
+        for (int i=0;i<K;++i){
+             st = new StringTokenizer(br.readLine());
+             int fra = Integer.parseInt(st.nextToken());
+             int til = Integer.parseInt(st.nextToken());
+             int vekt = Integer.parseInt(st.nextToken());
+             Vkant k = new Vkant(node[til],(Vkant)node[fra].kant1, vekt);
+             node[fra].kant1 = k;
         }
-        nd.neste = l;
-        System.out.println(n.number);
-        return n;
     }
-
-    public Node topologisort(){
-        Node l = null;
-        for(int i=N;i-->0;){
-            node[i].d = new Topo_lst();
-        }
-        for (int i=N;i-->0;){
-            l = df_topo(node[i],l);
-        }
-        return l;
-    }
-
-
-
-
-
-
-
 
 
 }
