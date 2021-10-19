@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 
+import static java.lang.Math.min;
+
 public class Graf {
     //antall noder
     int N;
@@ -18,23 +20,40 @@ public class Graf {
     }
 
 
-    public void bfs(Node s){
-        initForgj(s);
+    public int bfs(Node kilde, Node sluk){
+        initForgj(kilde);
         ArrayDeque<Node> queue = new ArrayDeque<>();
-        queue.add(s);
+        queue.add(kilde);
+        Vkant[] forrige = new Vkant[N];
         while (!queue.isEmpty()){
             Node n = queue.getFirst();
             for(Vkant k = (Vkant)n.kant1;k!=null;k=(Vkant)k.neste){
-                if(k.vekt==0) continue;
+
+                int kapasitet = k.beregnRestkapasitet();
                 Forgj f =  (Forgj) k.til.d;
-                if (f.dist == f.uendelig){
+                if (f.dist == f.uendelig && kapasitet > 0){
                     f.dist = ((Forgj)n.d).dist+1;
                     f.forgj = n;
+                    forrige[k.til.number] = k;
                     queue.add(k.til);
                 }
             }
             queue.removeFirst();
         }
+
+        //finner vei og flaskehals
+        int flaskehals = Integer.MAX_VALUE;
+        for (Vkant k = forrige[sluk.number];k!=null;k=forrige[k.til.number]){
+            flaskehals = min(flaskehals, k.beregnRestkapasitet());
+        }
+
+        //backtracker og oppdaterer flyt
+        for (Vkant k = forrige[sluk.number];k!=null;k=forrige[k.til.number]){
+            k.flyt += flaskehals;
+            ((Vkant)k.motsatt).flyt -= flaskehals;
+        }
+        return flaskehals;
+
     }
 
     public void printBFSResults(){
@@ -55,7 +74,10 @@ public class Graf {
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         node = new Node[N];
-        for (int i=0;i<N;++i) node[i] = new Node();
+        for (int i=0;i<N;++i){
+            node[i] = new Node();
+            node[i].number = i;
+        }
         K = Integer.parseInt(st.nextToken());
         for (int i=0;i<K;++i){
              st = new StringTokenizer(br.readLine());
@@ -70,10 +92,17 @@ public class Graf {
     }
 
 
-    public void getMaxFlow(Node kilde, Node sluk){
+    public int getMaxFlow(Node kilde, Node sluk){
         //TODO create algorithm
-
-
+        int flow;
+        int maxFlow=0;
+        do{
+            //markAllNodesAsUnvisited
+            flow=bfs(kilde,sluk);
+            maxFlow+=flow;
+        }
+        while(flow!=0);
+        return maxFlow;
     }
 
 
