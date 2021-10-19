@@ -64,6 +64,7 @@ public class Graf {
              int vekt = Integer.parseInt(st.nextToken());
              Vkant k = new Vkant(node[til],(Vkant)node[fra].kant1, vekt);
              k.motsatt = new Vkant(node[fra],(Vkant)node[til].kant1,-vekt);
+             k.motsatt.motsatt = k;
              node[fra].kant1 = k;
         }
     }
@@ -71,6 +72,7 @@ public class Graf {
 
     public void getMaxFlow(Node kilde, Node sluk){
         //TODO create algorithm
+
 
     }
 
