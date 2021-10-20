@@ -21,7 +21,6 @@ public class Graf {
 
 
     public int bfs(Node kilde, Node sluk){
-        initForgj(kilde);
         ArrayDeque<Node> queue = new ArrayDeque<>();
         queue.add(kilde);
         Vkant[] forrige = new Vkant[N];
@@ -29,16 +28,19 @@ public class Graf {
             Node n = queue.getFirst();
             for(Vkant k = (Vkant)n.kant1;k!=null;k=(Vkant)k.neste){
 
-                int kapasitet = k.beregnRestkapasitet();
+                if(k.beregnRestkapasitet()==0) {
+                    queue.removeFirst();
+                    continue;
+                }
                 Forgj f =  (Forgj) k.til.d;
-                if (f.dist == f.uendelig && kapasitet > 0){
+                if (f.dist == f.uendelig){
                     f.dist = ((Forgj)n.d).dist+1;
                     f.forgj = n;
                     forrige[k.til.number] = k;
                     queue.add(k.til);
                 }
+                queue.removeFirst();
             }
-            queue.removeFirst();
         }
 
         //finner vei og flaskehals
@@ -54,20 +56,6 @@ public class Graf {
         }
         return flaskehals;
 
-    }
-
-    public void printBFSResults(){
-        System.out.println("Node:  Forgj:  Dist:  ");
-        for (int i=0;i<N;i++){
-            int forgj;
-            if(((Forgj)node[i].d).forgj == null){
-                forgj = -1;
-            }
-            else{
-                forgj = ((Forgj)node[i].d).forgj.number;
-            }
-            System.out.println(node[i].number+"      "+forgj+"     "+ ((Forgj)node[i].d).dist);
-        }
     }
 
     public void ny_vgraf(BufferedReader br) throws IOException{
@@ -93,11 +81,14 @@ public class Graf {
 
 
     public int getMaxFlow(Node kilde, Node sluk){
-        //TODO create algorithm
         int flow;
         int maxFlow=0;
+        initForgj(kilde);
         do{
             //markAllNodesAsUnvisited
+            for(int i=0;i< node.length;i++){
+                ((Forgj)node[i].d).dist=1000000000;
+            }
             flow=bfs(kilde,sluk);
             maxFlow+=flow;
         }
