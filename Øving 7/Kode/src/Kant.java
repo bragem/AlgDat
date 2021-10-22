@@ -1,9 +1,8 @@
-public abstract class Kant {
-    Kant neste;
-    Kant motsatt;
-    Node til;
-    public Kant(Node n, Kant nst){
-        til = n;
-        neste = nst;
+public class Kant {
+    int til;
+    int weight;
+    public Kant(int til, int weight){
+        this.til = til;
+        this.weight = weight;
     }
 }
