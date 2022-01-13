@@ -1,0 +1,307 @@
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+
+public class Compression {
+
+    public byte[] LZ77(String path) throws IOException{
+        DataInputStream inputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(path)));
+        DataOutputStream outputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(path +
+                "compressed")));
+
+        char[] charArr;
+        byte[] inputBytes = inputStream.readAllBytes();
+        //String string = new String(inputStream.readAllBytes(), StandardCharsets.US_ASCII);
+        //charArr = string.toCharArray();
+
+        // Range is the maximum length of characters to check backwards
+        short RANGE = Short.MAX_VALUE;
+
+        // The minimum length of a character range that the program should check
+        int MIN_WORD_LENGTH = 4;
+
+        // Stores everything that has been looped through and compressed
+        StringBuilder incompressible = new StringBuilder();
+
+        // Stores the combination of characters that the program is checking towards
+        StringBuilder currentDictonary = new StringBuilder();
+
+        // Stores the current combination of characters that we try to find a match for
+        StringBuilder currentCombination = new StringBuilder();
+
+        currentDictonary.append(charArr[0]);
+        currentDictonary.append(charArr[1]);
+        currentDictonary.append(charArr[2]);
+        currentDictonary.append(charArr[3]);
+
+        incompressible.append(currentDictonary);
+
+        int i = 4;
+
+        outer:
+        while(i < charArr.length) {
+
+
+            for(int j = i; j < charArr.length;j++) {
+                currentCombination.append(charArr[j]);
+                if(j == charArr.length-1) {
+                    incompressible.append(currentCombination);
+                    break outer;
+                }
+                //Makes sure the combination always is the desired length before checking for a match
+                if(currentCombination.length() < MIN_WORD_LENGTH) {
+                    continue;
+                }
+
+                int foundIndex = findPatternInText(currentCombination.toString(), currentDictonary.toString());
+
+                // If foundIndex == -1 there is no match
+                if(foundIndex == -1) {
+                    incompressible.append(currentCombination);
+                    currentDictonary.append(currentCombination);
+
+                    //If currentDictionary is larger than specified range,
+                    //the k first characters are removed
+                    if(currentDictonary.length() > RANGE){
+                        for(int k=0;k<currentDictonary.length()-RANGE;k++){
+                            currentDictonary.deleteCharAt(0);
+                        }
+                    }
+
+                    //moves i to the end of currentCombination if no match
+                    i+=currentCombination.length();
+                    //empties currentCombination as we need to restart
+                    currentCombination.setLength(0);
+
+
+                } else {
+                    int k = j+1;
+                    //end of file
+                    if(k >= charArr.length){
+                        //incompressible to outputstream
+                        outputStream.writeByte((byte) incompressible.length());
+                        for (int c = 0; c < incompressible.length(); c++){
+                            outputStream.writeByte((byte) incompressible.charAt(c));
+                        }
+                        //compressed to outputstream
+                        int distanceToMatch = currentDictonary.length() - foundIndex;
+                        outputStream.writeByte((byte)~(distanceToMatch) +1);
+                        outputStream.writeByte(currentCombination.length());
+                        break outer;
+                    }
+
+                    int foundIndexLoop = foundIndex;
+
+                    //If there is a match with the next character, loop until it hits a no-match
+                    while(foundIndexLoop != -1){
+                        if(k>=charArr.length) break;
+                        currentCombination.append(charArr[k]);
+                        k++;
+                        foundIndexLoop = findPatternInText(currentCombination.toString(), currentDictonary.toString());
+                    }
+
+                    currentCombination.deleteCharAt(currentCombination.length()-1);
+
+                    //Writes the length of incompressible data
+                    outputStream.writeByte((byte) incompressible.length());
+                    //Writes incompressible data to outputstream
+                    for (int c = 0; c < incompressible.length(); c++){
+                        outputStream.writeByte((byte) incompressible.charAt(c));
+                    }
+
+                    //writes the compressed data to outputstream on the format
+                    // 1ddd dddd llll llll where d represents relative distance to match from end of dictionary
+                    //and l represents length of match
+                    int distanceToMatch = currentDictonary.length() - foundIndex;
+                    outputStream.writeByte((byte)~(distanceToMatch) +1);
+                    outputStream.writeByte(currentCombination.length());
+
+                    i += currentCombination.length();
+
+                    currentCombination.setLength(0);
+                    incompressible.setLength(0);
+                }
+
+            }
+        }
+        outputStream.writeByte((byte)incompressible.length());
+        for (int c = 0; c < incompressible.length(); c++){
+            outputStream.writeByte((byte) incompressible.charAt(c));
+        }
+
+        inputStream.close();
+        outputStream.flush();
+        outputStream.close();
+        return readStream(path);
+    }
+
+    public byte[] readStream(String path) throws IOException{
+        DataInputStream inputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(path +
+                "compressed")));
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.readFully(bytes);
+        return bytes;
+    }
+
+    public void decompress(String path) throws  IOException{
+        DataInputStream inputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(path)));
+        DataOutputStream outputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(path +
+                "decompressed")));
+        byte[] bytes = new byte[inputStream.available()];
+        inputStream.readFully(bytes);
+
+        ArrayList<Byte> byteList = new ArrayList<>();
+
+
+        int i = 0;
+        outer:
+        while(i < bytes.length){
+            //posOrNeg either represents a positive length of uncompressed data
+            //or a negative number, which indicates a pointer to existing data
+            byte posOrNeg = bytes[i];
+            //if the byte is larger than zero, uncompressed data follows
+            if(posOrNeg >= 0){
+                byte[] copy = new byte[bytes.length - 1];
+
+                //removes the byte telling how much uncompressed data follows
+                for (int d = 0, e = 0; d < bytes.length; d++) {
+                    if (d != i) {
+                        copy[e++] = bytes[d];
+                    }
+                }
+                bytes = copy;
+
+                for(int l = 0; l < posOrNeg; l++){
+                    if(i+l>=bytes.length) break outer;
+                    byteList.add(bytes[i+l]);
+                }
+                i += posOrNeg;
+
+
+            }
+            //If the byte is negative, that means it is a pointer
+            else{
+                int distance = ~(posOrNeg-1);
+                int length = bytes[i+1];
+
+                //removes pointer bytes from array
+                byte[] copy = new byte[bytes.length - 1];
+                for (int d = 0, e = 0; d < bytes.length; d++) {
+                    if (d != i) {
+                        copy[e++] = bytes[d];
+                    }
+                }
+                bytes = copy;
+
+                copy = new byte[bytes.length - 1];
+                for (int d = 0, e = 0; d < bytes.length; d++) {
+                    if (d != i) {
+                        copy[e++] = bytes[d];
+                    }
+                }
+                bytes = copy;
+
+
+
+                for(int k = 0; k < length; k++){
+                    byteList.add(byteList.get(i-distance+k));
+                }
+            }
+        }
+
+        for (Byte aByte : byteList) {
+            outputStream.write(aByte);
+        }
+
+        inputStream.close();
+        outputStream.flush();
+        outputStream.close();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private int findPatternInText(String pattern, String text) {
+        int index = -1;
+        int patternLength = pattern.length();
+        int textLength = text.length();
+        char[] textCharArray = text.toCharArray();
+        char[] patternArray = pattern.toCharArray();
+
+        int[] suffixArray = generateSuffixArray(patternLength, pattern);
+
+        int i = 0;
+        boolean isMatched = true;
+        int j = 0;
+        while(j < patternLength && i < textLength){
+            if(textCharArray[i] == patternArray[j]){
+                j = j + 1;
+                i = i + 1;
+            } else{
+                int newIndex = i-j+1;
+                isMatched = false;
+                j -= 1;
+
+                if (j < 0){
+                    j = 0;
+                }
+                j = suffixArray[j];
+
+                if(j == 0){
+                    i = newIndex;
+                } else {
+                    i = i + 1;
+                }
+
+            }
+
+            if(j == patternLength) {
+                isMatched = true;
+            }
+
+        }
+        if(isMatched){
+            index = i-patternLength;
+        }
+
+        return index;
+    }
+
+    private int[] generateSuffixArray(int patternLength, String pattern) {
+        int[] suffixArray = new int[patternLength];
+        char[] patternArray = pattern.toCharArray();
+        int i = 1;
+        while(i < patternLength){
+            for(int j = 0; j < patternLength; j++){
+                if((i < patternLength) && (patternArray[i] == patternArray[j])){
+                    suffixArray[i] = j + 1;
+                    i = i + 1;
+
+                } else{
+                    i = i + 1;
+                    break;
+                }
+
+                if(i == patternLength-1)
+                    break;
+            }
+
+        }
+
+        return  suffixArray;
+    }
+
+}
